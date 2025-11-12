@@ -56,21 +56,25 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address';
+      return 'Email address is required';
+    }
+    final trimmedValue = value.trim();
+    if (trimmedValue.isEmpty) {
+      return 'Email address cannot be empty';
     }
     final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email address (e.g., test@gsu.com)';
+    if (!emailRegex.hasMatch(trimmedValue)) {
+      return 'Please enter a valid email format (e.g., test@gsu.com)';
     }
     return null;
   }
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return 'Password is required';
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return 'Password must be at least 6 characters long';
     }
     return null;
   }
@@ -103,8 +107,27 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(_errorMessage ?? ''),
-          backgroundColor: _success ? Colors.green : Colors.red,
+          content: Row(
+            children: <Widget>[
+              Icon(
+                _success ? Icons.check_circle : Icons.error,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  _errorMessage ?? '',
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: _success ? Colors.green.shade600 : Colors.red.shade600,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
@@ -151,28 +174,23 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
             enabled: !_isLoading,
           ),
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            alignment: Alignment.center,
+          SizedBox(
+            width: double.infinity,
+            height: 50,
             child: _isLoading
-                ? const CircularProgressIndicator()
+                ? const Center(child: CircularProgressIndicator())
                 : ElevatedButton(
                     onPressed: _register,
-                    child: const Text('Register'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Text(
-              _initialState
-                  ? 'Please Register'
-                  : _success
-                      ? 'Successfully registered $_userEmail'
-                      : 'Registration failed',
-              style: TextStyle(
-                color: _success ? Colors.green : Colors.red,
-              ),
-            ),
           ),
         ],
       ),
@@ -201,21 +219,25 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address';
+      return 'Email address is required';
+    }
+    final trimmedValue = value.trim();
+    if (trimmedValue.isEmpty) {
+      return 'Email address cannot be empty';
     }
     final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email address (e.g., test@gsu.com)';
+    if (!emailRegex.hasMatch(trimmedValue)) {
+      return 'Please enter a valid email format (e.g., test@gsu.com)';
     }
     return null;
   }
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return 'Password is required';
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return 'Password must be at least 6 characters long';
     }
     return null;
   }
@@ -248,8 +270,27 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(_errorMessage ?? ''),
-          backgroundColor: _success ? Colors.green : Colors.red,
+          content: Row(
+            children: <Widget>[
+              Icon(
+                _success ? Icons.check_circle : Icons.error,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  _errorMessage ?? '',
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: _success ? Colors.green.shade600 : Colors.red.shade600,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
@@ -269,14 +310,11 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: const Text(
-              'Sign In',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            padding: const EdgeInsets.all(16),
-            alignment: Alignment.center,
+          const Text(
+            'Sign In',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 16),
           TextFormField(
             controller: _emailController,
             decoration: const InputDecoration(
@@ -299,29 +337,23 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
             enabled: !_isLoading,
           ),
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            alignment: Alignment.center,
+          SizedBox(
+            width: double.infinity,
+            height: 50,
             child: _isLoading
-                ? const CircularProgressIndicator()
+                ? const Center(child: CircularProgressIndicator())
                 : ElevatedButton(
                     onPressed: _signInWithEmailAndPassword,
-                    child: const Text('Sign In'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              _initialState
-                  ? 'Please sign in'
-                  : _success
-                      ? 'Successfully signed in $_userEmail'
-                      : 'Sign in failed',
-              style: TextStyle(
-                color: _success ? Colors.green : Colors.red,
-              ),
-            ),
           ),
         ],
       ),
